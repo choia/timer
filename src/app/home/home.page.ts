@@ -16,6 +16,7 @@ export class HomePage implements OnInit {
 			title: 'This is first notification',
 			text: 'Simple local notifications'
 		});
+		console.log('hi');
 	}
 
 	delayNotify() {

@@ -1,25 +1,29 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Countdown Stack
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-button (click)="simpleNotify()" expand="block" fill="clear">
-    Schedule Basic
-  </ion-button>
-  <ion-button (click)="delayNotify()" expand="block" fill="clear">
-    Delay Basic
-  </ion-button>
-  <ion-button (click)="delayNotify2()" expand="block" fill="clear">
-    Delay Basic 2
-  </ion-button>
-  <ion-button (click)="recurringNotify()" expand="block" fill="clear">
-    Recurring Notify
-  </ion-button>
-  <ion-button (click)="repeatingDaily()" expand="block" fill="clear">
-    Repeating Daily
-  </ion-button>
+  <ion-list>
+    <ion-item>
+      <ion-input placeholder="Title"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input placeholder="Description"></ion-input>
+    </ion-item>
+    <ion-item-divider></ion-item-divider>
+    <ion-item>
+      <ion-label>Date</ion-label>
+      <ion-datetime placeholder="Select Date"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-button (click)="simpleNotify()" expand="block" fill="clear">
+        Repeating Daily
+      </ion-button>
+    </ion-item>
+  </ion-list>
+  
 </ion-content>
