@@ -8,7 +8,17 @@
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    <ion-item>
+    <ion-card *ngFor="let timer of timers">
+      <ion-card-header>
+        <ion-card-title>{{timer.title}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div>{{timer.text}}</div>
+        <div>{{timer.date | date}}</div>
+        <div>{{timer.repeat}}</div>
+      </ion-card-content>
+    </ion-card>
+    <!-- <ion-item>
       <ion-input placeholder="Title"></ion-input>
     </ion-item>
     <ion-item>
@@ -18,12 +28,12 @@
     <ion-item>
       <ion-label>Date</ion-label>
       <ion-datetime placeholder="Select Date"></ion-datetime>
-    </ion-item>
-    <ion-item>
+    </ion-item> -->
+    <!-- <ion-item>
       <ion-button (click)="simpleNotify()" expand="block" fill="clear">
         Repeating Daily
       </ion-button>
-    </ion-item>
+    </ion-item> -->
   </ion-list>
   
 </ion-content>

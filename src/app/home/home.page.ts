@@ -1,3 +1,4 @@
+import { Timer } from './../core/model/timer.model';
 import { Component, OnInit } from '@angular/core';
 import { ELocalNotificationTriggerUnit } from '@ionic-native/local-notifications/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
@@ -9,6 +10,36 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 })
 export class HomePage implements OnInit {
 	constructor(private localNotifications: LocalNotifications) {}
+	timers: Timer[] = [
+		new Timer({
+			id: 1,
+			title: 'This is first notification',
+			text: 'Simple local notifications',
+			date: new Date().toISOString(),
+			repeat: false
+		}),
+		new Timer({
+			id: 2,
+			title: 'This is second notification',
+			text: 'Simple local notifications',
+			date: new Date().toISOString(),
+			repeat: false
+		}),
+		new Timer({
+			id: 3,
+			title: 'This is delay notification',
+			text: '1 - 2AM',
+			date: new Date().toISOString(),
+			repeat: false
+		}),
+		new Timer({
+			id: 4,
+			title: 'This is delay notification 2',
+			text: '3 - 4PM',
+			date: new Date().toISOString(),
+			repeat: false
+		})
+	];
 
 	simpleNotify() {
 		this.localNotifications.schedule({
