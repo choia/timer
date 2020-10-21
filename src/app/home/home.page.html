@@ -1,14 +1,19 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
+    <ion-title size="small">
       Countdown Stack
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="addTimer()">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    <ion-card *ngFor="let timer of timers">
+    <ion-card *ngFor="let timer of timers" (click)="simpleNotify()">
       <ion-card-header>
         <ion-card-title>{{timer.title}}</ion-card-title>
       </ion-card-header>

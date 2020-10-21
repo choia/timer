@@ -13,8 +13,8 @@ export class HomePage implements OnInit {
 	timers: Timer[] = [
 		new Timer({
 			id: 1,
-			title: 'This is first notification',
-			text: 'Simple local notifications',
+			title: 'This is first notification from timer',
+			text: 'Timer - Simple local notifications',
 			date: new Date().toISOString(),
 			repeat: false
 		}),
@@ -43,11 +43,11 @@ export class HomePage implements OnInit {
 
 	simpleNotify() {
 		this.localNotifications.schedule({
-			id: 1,
-			title: 'This is first notification',
-			text: 'Simple local notifications'
+			id: this.timers[0].id,
+			title: this.timers[0].title,
+			text: this.timers[0].text
 		});
-		console.log('hi');
+		console.log(this.timers);
 	}
 
 	delayNotify() {
@@ -96,6 +96,10 @@ export class HomePage implements OnInit {
 				every: { hour: 1, minute: 25 }
 			}
 		});
+	}
+
+	addTimer() {
+		console.log('addTimer');
 	}
 
 	async ngOnInit() {}
