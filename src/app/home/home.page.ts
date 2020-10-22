@@ -1,7 +1,10 @@
+import { TimerModes } from './components/timer/timer.enum';
 import { Timer } from './../core/model/timer.model';
 import { Component, OnInit } from '@angular/core';
 import { ELocalNotificationTriggerUnit } from '@ionic-native/local-notifications/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { ModalController } from '@ionic/angular';
+import { TimerComponent } from './components/timer/timer.component';
 
 @Component({
 	selector: 'app-home',
@@ -9,7 +12,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 	styleUrls: [ 'home.page.scss' ]
 })
 export class HomePage implements OnInit {
-	constructor(private localNotifications: LocalNotifications) {}
+	constructor(private localNotifications: LocalNotifications, private modalController: ModalController) {}
 	timers: Timer[] = [
 		new Timer({
 			id: 1,
@@ -98,8 +101,20 @@ export class HomePage implements OnInit {
 		});
 	}
 
-	addTimer() {
-		console.log('addTimer');
+	async addTimer() {
+		const timerModal = await this.modalController.create({
+			component: TimerComponent,
+			componentProps: {
+				mode: TimerModes.ADD
+			}
+		});
+		await timerModal.present();
+		const response = await timerModal.onDidDismiss();
+		const timer = response.data;
+		if (timer) {
+			this.timers.map(timer);
+		}
+		console.log(timer);
 	}
 
 	async ngOnInit() {}

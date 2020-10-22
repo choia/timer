@@ -1,3 +1,30 @@
-<p>
-  timer works!
-</p>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add Timer</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form>
+    <ion-list>
+      <ion-item>
+        <ion-label>Title</ion-label>
+        <ion-input></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Description</ion-label>
+        <ion-textarea></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label>Date</ion-label>
+        <ion-datetime></ion-datetime>
+      </ion-item>
+      <ion-button>Save</ion-button>
+    </ion-list>
+  </form>
+</ion-content>
