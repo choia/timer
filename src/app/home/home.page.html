@@ -11,7 +11,7 @@
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    <ion-card *ngFor="let timer of timers" (click)="simpleNotify()">
+    <ion-card *ngFor="let timer of timers" (click)="editTimer()">
       <ion-card-header>
         <ion-card-title>{{timer.title}}</ion-card-title>
       </ion-card-header>
