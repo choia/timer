@@ -11,14 +11,13 @@
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    <ion-card *ngFor="let timer of timers" (click)="editTimer()">
+    <ion-card *ngFor="let timer of timers" (click)="editTimer(timer)">
       <ion-card-header>
         <ion-card-title>{{timer.title}}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <div>{{timer.text}}</div>
+        <div>{{timer.description}}</div>
         <div>{{timer.date | date}}</div>
-        <div>{{timer.repeat}}</div>
       </ion-card-content>
     </ion-card>
     <!-- <ion-item>

@@ -25,7 +25,7 @@ export class TimerComponent implements OnInit {
     
     if (this.timer && this.mode === TimerModes.EDIT) {
       this.timerForm.get('title').setValue(this.timer.title);
-      this.timerForm.get('description').setValue(this.timer.text);
+      this.timerForm.get('description').setValue(this.timer.description);
       this.timerForm.get('date').setValue(this.timer.date);
     }
   }
