@@ -1,26 +1,42 @@
 import { TimerModes } from './components/timer/timer.enum';
 import { Timer } from './../core/model/timer.model';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ELocalNotificationTriggerUnit } from '@ionic-native/local-notifications/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { ModalController } from '@ionic/angular';
 import { TimerComponent } from './components/timer/timer.component';
+import { TimerService } from '../core/service/timer.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
-  styleUrls: [ 'home.page.scss' ]
+  styleUrls: [ 'home.page.scss' ],
 })
 export class HomePage implements OnInit {
-  timers: Timer[]
-  constructor(private localNotifications: LocalNotifications, private modalController: ModalController) {}
+  timers: Timer[];
+
+  constructor(private localNotifications: LocalNotifications, 
+              private timerService: TimerService, 
+              private modalController: ModalController) {}
 
   ngOnInit(): void {
     this.timers = [];
-    
+    this.getAllTimers();
   }
 
-  async addTimer() {
+  // setTimers
+  setTimers(timers: Timer[]) {
+    this.timers = timers;
+  }
+
+  // getAllTimers
+  async getAllTimers() {
+    const timers = await this.timerService.getAllTimers();
+    this.setTimers(timers.map((timer) => new Timer(timer)));
+  }
+
+  // create
+  async createTimer() {
     const timerModal = await this.modalController.create({
       component: TimerComponent,
       componentProps: {
@@ -31,14 +47,17 @@ export class HomePage implements OnInit {
     await timerModal.present();
     const response = await timerModal.onDidDismiss();
     const timer = response.data;
+
     if (timer) {
-      this.timers.push(new Timer(timer));
-      // this.timers.map(timer);
+      const createdTimers = await this.timerService.createTimer(timer);
+      this.timers.push(createdTimers);
+      
     }
-    console.log(timer);
+      
   }
 
-  async editTimer(timerItem: Timer) {
+  // update
+  async updateTimer(timerItem: Timer) {
     const timerModal = await this.modalController.create({
       component: TimerComponent,
       componentProps:  {
@@ -49,6 +68,7 @@ export class HomePage implements OnInit {
     await timerModal.present();
     const response = await timerModal.onDidDismiss();
     const timer = response.data;
+
     if (timer) {
       for (let i = 0, len = this.timers.length; i < len; i++) {
         if (timer.id === this.timers[i].id) {
@@ -56,7 +76,6 @@ export class HomePage implements OnInit {
           break;
         }
       }
-
     }
   }
 
