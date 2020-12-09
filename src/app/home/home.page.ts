@@ -15,8 +15,8 @@ import { TimerService } from '../core/service/timer.service';
 export class HomePage implements OnInit {
   timers: Timer[];
 
-  constructor(private localNotifications: LocalNotifications, 
-              private timerService: TimerService, 
+  constructor(private localNotifications: LocalNotifications,
+              private timerService: TimerService,
               private modalController: ModalController) {}
 
   ngOnInit(): void {
@@ -50,11 +50,18 @@ export class HomePage implements OnInit {
 
     if (timer) {
       const createdTimers = await this.timerService.createTimer(timer);
+      console.log(createdTimers);
       this.timers.push(createdTimers);
-      
     }
-      
+
   }
+
+  // simpleNotify(timers: ) {
+  // this.localNotifications.schedule({
+
+  // })
+  // }
+
 
   // update
   async updateTimer(timerItem: Timer) {

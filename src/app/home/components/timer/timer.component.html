@@ -24,6 +24,14 @@
         <ion-label>Date</ion-label>
         <ion-datetime formControlName="date"></ion-datetime>
       </ion-item>
+      <ion-item>
+        <ion-label>Alert</ion-label>
+        <ion-checkbox formControlName="alert" color="primary"></ion-checkbox>
+      </ion-item>
+      <ion-item >
+        <ion-label>Time</ion-label>
+        <ion-datetime display-format="hh:mm A" picker-format="hh:mm A" formControlName="datetime"></ion-datetime>
+      </ion-item>
       <ion-button type="submit" expand="block" fill="outline">Save</ion-button>
     </ion-list>
   </form>

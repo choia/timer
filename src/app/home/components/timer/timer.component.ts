@@ -20,22 +20,27 @@ export class TimerComponent implements OnInit {
 	  this.timerForm = this.fb.group({
 	    title: ['', [ Validators.required ]],
 	    description: ['', []],
-	    date: ['', []]
+	    date: ['', []],
+      datetime: ['', []],
+      alert: [false]
     });
-    
+
     if (this.timer && this.mode === TimerModes.EDIT) {
       this.timerForm.get('title').setValue(this.timer.title);
       this.timerForm.get('description').setValue(this.timer.description);
       this.timerForm.get('date').setValue(this.timer.date);
+      this.timerForm.get('datetime').setValue(this.timer.datetime);
+      this.timerForm.get('alert').setValue(this.timer.alert);
     }
   }
 
   formSubmit() {
     console.log(this.timerForm);
     let formData;
-    if (this.mode === TimerModes.ADD) {      
+    if (this.mode === TimerModes.ADD) {
       formData = this.timerForm.value;
-    } else {
+    }
+    else {
       formData = {
         ...this.timer,
         ...this.timerForm.value
