@@ -6,6 +6,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { ModalController } from '@ionic/angular';
 import { TimerComponent } from './components/timer/timer.component';
 import { TimerService } from '../core/service/timer.service';
+import { LocalNotificationService } from '../core/service/local-notification.service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,7 @@ import { TimerService } from '../core/service/timer.service';
 export class HomePage implements OnInit {
   timers: Timer[];
 
-  constructor(private localNotifications: LocalNotifications,
+  constructor(private notificationService: LocalNotificationService,
               private timerService: TimerService,
               private modalController: ModalController) {}
 
@@ -50,18 +51,12 @@ export class HomePage implements OnInit {
 
     if (timer) {
       const createdTimers = await this.timerService.createTimer(timer);
-      console.log(createdTimers);
+      console.log('home.page: ' + createdTimers);
       this.timers.push(createdTimers);
     }
+    this.notificationService.simpleNotify(timer);
 
   }
-
-  // simpleNotify(timers: ) {
-  // this.localNotifications.schedule({
-
-  // })
-  // }
-
 
   // update
   async updateTimer(timerItem: Timer) {
