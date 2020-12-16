@@ -54,7 +54,7 @@ export class HomePage implements OnInit {
       console.log('home.page: ' + createdTimers);
       this.timers.push(createdTimers);
     }
-    // notification service
+    // notification service - simpleNotify test
     this.notificationService.simpleNotify(timer);
 
   }
