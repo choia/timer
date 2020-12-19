@@ -10,12 +10,29 @@ export class LocalNotificationService {
   constructor(private localNotifications: LocalNotifications) {}
 
   simpleNotify(timer: Partial<Timer>) {
-    console.log('simpleNotify');
+    this.localNotifications.schedule({
+      id: timer.id,
+      title: timer.title,
+      text: timer.description
+
+    });
+  }
+
+  createNotify(timer: Partial<Timer>) {
     this.localNotifications.schedule({
       id: timer.id,
       title: timer.title,
       text: timer.description,
-      data: {messageData: 'Hello message data'}
+      trigger: { at: new Date(timer.date)}
+    });
+  }
+
+  timeNotify(timer: Partial<Timer>) {
+    this.localNotifications.update({
+      id: timer.id,
+      title: timer.title,
+      text: timer.description,
+      trigger: { at: new Date(timer.date)}
 
     });
   }
