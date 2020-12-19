@@ -7,6 +7,7 @@ import { ModalController } from '@ionic/angular';
 import { TimerComponent } from './components/timer/timer.component';
 import { TimerService } from '../core/service/timer.service';
 import { LocalNotificationService } from '../core/service/local-notification.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +15,7 @@ import { LocalNotificationService } from '../core/service/local-notification.ser
   styleUrls: [ 'home.page.scss' ],
 })
 export class HomePage implements OnInit {
+  pipe = new DatePipe('en-US')
   timers: Timer[];
 
   constructor(private notificationService: LocalNotificationService,
@@ -48,10 +50,11 @@ export class HomePage implements OnInit {
     await timerModal.present();
     const response = await timerModal.onDidDismiss();
     const timer = response.data;
+    console.log('Create response data date: ' + timer.date);
+    console.log('Create response data time: ' + timer.datetime);
 
     if (timer) {
       const createdTimers = await this.timerService.createTimer(timer);
-      console.log('home.page: ' + createdTimers);
       this.timers.push(createdTimers);
     }
     // notification service - simpleNotify test
@@ -71,6 +74,8 @@ export class HomePage implements OnInit {
     await timerModal.present();
     const response = await timerModal.onDidDismiss();
     const timer = response.data;
+    console.log('Update response data date: ' + this.pipe.transform(timer.date, 'shortDate'));
+    console.log('Update response data time: ' + this.pipe.transform(timer.datetime, 'shortTime'));
 
     if (timer) {
       for (let i = 0, len = this.timers.length; i < len; i++) {
