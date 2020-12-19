@@ -57,6 +57,7 @@ export class HomePage implements OnInit {
       const createdTimers = await this.timerService.createTimer(timer);
       this.timers.push(createdTimers);
     }
+    // notification service - simpleNotify test
     this.notificationService.simpleNotify(timer);
 
   }
