@@ -5,9 +5,7 @@ export interface ITimer {
 	date: string;
 	datetime: string;
   repeat: boolean;
-  alert: boolean
 }
-
 export class Timer implements ITimer {
 	id: number;
 	title: string;
@@ -15,7 +13,6 @@ export class Timer implements ITimer {
 	date: string;
 	datetime: string;
   repeat: boolean;
-  alert: boolean
 
   constructor(timer: Partial<Timer>) {
 	  this.id = timer.id ? timer.id : new Date().getTime();
@@ -24,6 +21,5 @@ export class Timer implements ITimer {
 	  this.date = timer.date ? timer.date : '';
 	  this.datetime = timer.datetime ? timer.datetime : '';
 	  this.repeat = timer.repeat ? timer.repeat : false;
-	  this.alert = timer.alert ? timer.alert : false;
   }
 }
