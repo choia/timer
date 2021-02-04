@@ -3,6 +3,7 @@ import { Timer } from './../../../core/model/timer.model';
 import { ModalController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import * as moment from 'moment';
 // import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-timer',
@@ -14,20 +15,18 @@ export class TimerComponent implements OnInit {
   timer: Timer;
   mode: TimerModes;
   minDate: string;
-  test1: string;
-  test2: string;
-  test3: string;
+  maxDate: string;
 
   constructor(private modalController: ModalController, private fb: FormBuilder) {}
 
   ngOnInit() {
     console.log('ngOnInit');
-    // this.minDate = new Date().toISOString();
-    this.test1 = new Date().getMonth().toString();
-    this.test2 = new Date().getDate().toString();
-    this.test3 = new Date().getFullYear().toString();
-    // this.minDate = this.test3 + '-' + this.test1 + '-' + this.test2;
-    console.log('Test: ' + this.test3 + '-' + this.test1 + '-' + this.test2);
+
+    this.minDate = moment().format();
+    const addedDate = moment(this.minDate);
+    this.maxDate = addedDate.clone().add(2, 'year').format();
+    console.log('moment min date' + this.minDate);
+    console.log('moment max date' + this.maxDate);
 
 	  this.timerForm = this.fb.group({
 	    title: ['', []],
@@ -47,7 +46,6 @@ export class TimerComponent implements OnInit {
   }
 
   formSubmit() {
-
 
     console.log(this.timerForm);
     console.log('Date' + this.timer.date);

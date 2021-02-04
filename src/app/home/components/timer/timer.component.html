@@ -13,20 +13,20 @@
   <form [formGroup]="timerForm" (submit)="formSubmit()">
     <ion-list>
       <ion-item>
-        <ion-label>Add title</ion-label>
+        <ion-label position="floating">Add title</ion-label>
         <ion-input formControlName="title"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label>Add description</ion-label>
-        <ion-textarea formControlName="description" rows="5"></ion-textarea>
+        <ion-label position="floating">Add description</ion-label>
+        <ion-textarea formControlName="description" rows="3"></ion-textarea>
       </ion-item>
       <ion-item>
         <ion-label>Add date</ion-label>
-        <ion-datetime [min]="minDate" formControlName="date"></ion-datetime>
+        <ion-datetime [min]="minDate" [max]="maxDate" formControlName="date"></ion-datetime>
       </ion-item>
       <ion-item >
         <ion-label>Add notification time</ion-label>
-        <ion-datetime display-format="hh:mm A" picker-format="hh:mm A" formControlName="datetime"></ion-datetime>
+        <ion-datetime display-format="hh:mm A" picker-format="hh:mm A" minute-values="0,15,30,45" formControlName="datetime"></ion-datetime>
       </ion-item>
       <ion-button type="submit" expand="block" fill="outline">Save</ion-button>
     </ion-list>
