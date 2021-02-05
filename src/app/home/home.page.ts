@@ -28,11 +28,13 @@ export class HomePage implements OnInit {
 
   // setTimers
   setTimers(timers: Timer[]) {
+    console.log('#setTimers')
     this.timers = timers;
   }
 
   // getAllTimers
   async getAllTimers() {
+    console.log('#getAllTimers')
     const timers = await this.timerService.getAllTimers();
     this.setTimers(timers.map((timer) => new Timer(timer)));
   }

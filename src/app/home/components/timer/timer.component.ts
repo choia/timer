@@ -4,7 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
-// import { DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-timer',
   templateUrl: './timer.component.html',
@@ -16,6 +16,7 @@ export class TimerComponent implements OnInit {
   mode: TimerModes;
   minDate: string;
   maxDate: string;
+  defaultDate: string;
 
   constructor(private modalController: ModalController, private fb: FormBuilder) {}
 
@@ -45,10 +46,14 @@ export class TimerComponent implements OnInit {
     }
   }
 
+  getDate(e) {
+    console.log('getDate ' + e.target.value);
+  }
+
   formSubmit() {
 
     console.log(this.timerForm);
-    console.log('Date' + this.timer.date);
+    console.log('Date' + this.timerForm.value);
     let formData;
     if (this.mode === TimerModes.ADD) {
       formData = this.timerForm.value;
