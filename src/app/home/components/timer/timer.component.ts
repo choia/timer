@@ -56,6 +56,11 @@ export class TimerComponent implements OnInit {
     console.log('Date' + this.timerForm.value);
     let formData;
     if (this.mode === TimerModes.ADD) {
+
+      if (this.timerForm.get('title').value === '') {
+        this.timerForm.get('title').setValue('(No title)');
+      }
+
       formData = this.timerForm.value;
     }
     else {
