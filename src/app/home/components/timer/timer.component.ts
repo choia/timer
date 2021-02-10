@@ -20,17 +20,16 @@ export class TimerComponent implements OnInit {
 
   constructor(private modalController: ModalController, private fb: FormBuilder) {}
 
+  /* ngOnInit */
   ngOnInit() {
     console.log('ngOnInit');
 
     this.minDate = moment().format();
     const addedDate = moment(this.minDate);
     this.maxDate = addedDate.clone().add(2, 'year').format();
-    console.log('moment min date' + this.minDate);
-    console.log('moment max date' + this.maxDate);
 
 	  this.timerForm = this.fb.group({
-	    title: ['', []],
+      title: ['', []],
 	    description: ['', []],
 	    date: ['', []],
       datetime: ['', []],
@@ -44,12 +43,13 @@ export class TimerComponent implements OnInit {
       this.timerForm.get('date').setValue(this.timer.date);
       this.timerForm.get('datetime').setValue(this.timer.datetime);
     }
+    else {
+      this.defaultDate =new Date().toISOString();
+      this.timerForm.get('date').setValue(this.defaultDate);
+    }
   }
 
-  getDate(e) {
-    console.log('getDate ' + e.target.value);
-  }
-
+  /* formSubmit */
   formSubmit() {
 
     console.log(this.timerForm);
@@ -57,13 +57,12 @@ export class TimerComponent implements OnInit {
     let formData;
     if (this.mode === TimerModes.ADD) {
 
-      if (this.timerForm.get('title').value === '') {
-        this.timerForm.get('title').setValue('(No title)');
-      }
-
+      this.checkTitle();
       formData = this.timerForm.value;
     }
     else {
+      this.checkTitle();
+
       formData = {
         ...this.timer,
         ...this.timerForm.value
@@ -72,6 +71,14 @@ export class TimerComponent implements OnInit {
     this.modalController.dismiss(formData);
   }
 
+  /* checkTitle */
+  checkTitle() {
+    if (this.timerForm.get('title').value === '') {
+      this.timerForm.get('title').setValue('(No title)');
+    }
+  }
+
+  /* dismiss */
   dismiss() {
 	  this.modalController.dismiss();
   }
