@@ -4,6 +4,7 @@ export interface ITimer {
 	description: string;
 	date: string;
 	datetime: string;
+  dateAndTime: string;
   repeat: boolean;
 }
 export class Timer implements ITimer {
@@ -12,6 +13,7 @@ export class Timer implements ITimer {
 	description: string;
 	date: string;
 	datetime: string;
+  dateAndTime: string;
   repeat: boolean;
 
   constructor(timer: Partial<Timer>) {
@@ -20,6 +22,7 @@ export class Timer implements ITimer {
 	  this.description = timer.description ? timer.description : '';
 	  this.date = timer.date ? timer.date : '';
 	  this.datetime = timer.datetime ? timer.datetime : '';
+	  this.dateAndTime = timer.dateAndTime ? timer.dateAndTime : '';
 	  this.repeat = timer.repeat ? timer.repeat : false;
   }
 }
