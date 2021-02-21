@@ -23,7 +23,7 @@ module.exports = {
     'semi': ['error', 'always'],
     'quotes': ['error', 'single'],
     'indent': ['error', 2],
-    'max-len': ['error',{'code': 120}],
+    'max-len': ['error',{'code': 150}],
     'brace-style': ['error', 'stroustrup'],
     'function-call-argument-newline': ['error', 'consistent'],
     'no-mixed-spaces-and-tabs': ['error', 'smart-tabs']
