@@ -12,11 +12,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 
+import { DatePipe } from '@angular/common';
+
 @NgModule({
   declarations: [ AppComponent ],
   entryComponents: [],
   imports: [ BrowserModule, IonicModule.forRoot(), AppRoutingModule, IonicStorageModule.forRoot() ],
   providers: [
+    DatePipe,
     StatusBar,
     SplashScreen,
     LocalNotifications,
