@@ -7,6 +7,7 @@ import { ModalController } from '@ionic/angular';
 import { TimerComponent } from './components/timer/timer.component';
 import { TimerService } from '../core/service/timer.service';
 import { LocalNotificationService } from '../core/service/local-notification.service';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +17,7 @@ import { LocalNotificationService } from '../core/service/local-notification.ser
 export class HomePage implements OnInit {
 
   timers: Timer[];
+  relativeTime: string[]
 
   constructor(private notificationService: LocalNotificationService,
               private timerService: TimerService,
@@ -28,7 +30,8 @@ export class HomePage implements OnInit {
 
   // setTimers
   setTimers(timers: Timer[]) {
-    console.log('#setTimers');
+    const map1 = timers.map((timer) => this.relativeTime);
+    console.log('#setTimers: ' + map1);
     this.timers = timers;
   }
 
@@ -36,7 +39,8 @@ export class HomePage implements OnInit {
   async getAllTimers() {
     console.log('#getAllTimers');
     const timers = await this.timerService.getAllTimers();
-    this.setTimers(timers.map((timer) => new Timer(timer)));
+    // this.setTimers(timers.map((timer) => new Timer(timer)));
+
   }
 
   // create
@@ -51,15 +55,15 @@ export class HomePage implements OnInit {
     await timerModal.present();
     const response = await timerModal.onDidDismiss();
     const timer = response.data;
-    console.log('Create response data date: ' + timer.date);
-    console.log('Create response data time: ' + timer.datetime);
+
+    console.log('Create response date and time: ' + timer.dateAndTime);
 
     if (timer) {
       const createdTimers = await this.timerService.createTimer(timer);
       this.timers.push(createdTimers);
     }
-    // notification service - simpleNotify test
-    this.notificationService.simpleNotify(timer);
+
+    this.notificationService.createAndUpdateNotify(timer);
 
   }
 
@@ -84,6 +88,9 @@ export class HomePage implements OnInit {
         }
       }
     }
+
+    this.notificationService.createAndUpdateNotify(timer);
+
   }
 
 }

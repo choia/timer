@@ -2,8 +2,8 @@ import { TimerModes } from './timer.enum';
 import { Timer } from './../../../core/model/timer.model';
 import { ModalController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import * as moment from 'moment';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { DateTime } from 'luxon';
 import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-timer',
@@ -16,17 +16,19 @@ export class TimerComponent implements OnInit {
   mode: TimerModes;
   minDate: string;
   maxDate: string;
-  defaultDate: string;
+  dateAndTime: string;
 
-  constructor(private modalController: ModalController, private fb: FormBuilder) {}
+  constructor(private modalController: ModalController, private fb: FormBuilder, private datePipe: DatePipe) {}
 
   /* ngOnInit */
   ngOnInit() {
     console.log('ngOnInit');
 
-    this.minDate = moment().format();
-    const addedDate = moment(this.minDate);
-    this.maxDate = addedDate.clone().add(2, 'year').format();
+    this.minDate = DateTime.now().toString();
+    this.maxDate = DateTime.now().plus({years: 1, month: 11, days: 1}).toString();
+
+    console.log('min: ' + this.minDate);
+    console.log('max: ' + this.maxDate);
 
 	  this.timerForm = this.fb.group({
       title: ['', []],
@@ -36,7 +38,8 @@ export class TimerComponent implements OnInit {
     });
 
     if (this.timer && this.mode === TimerModes.EDIT) {
-      console.log('If TimerModes is in Edit Mode');
+      console.log('TimerModes is in Edit');
+      console.log(this.timerForm.get('date'));
 
       this.timerForm.get('title').setValue(this.timer.title);
       this.timerForm.get('description').setValue(this.timer.description);
@@ -44,41 +47,78 @@ export class TimerComponent implements OnInit {
       this.timerForm.get('datetime').setValue(this.timer.datetime);
     }
     else {
-      this.defaultDate =new Date().toISOString();
-      this.timerForm.get('date').setValue(this.defaultDate);
+      console.log('TimerModes is in Create');
+
+      this.timerForm.get('date').setValue(this.minDate);
     }
   }
 
   /* formSubmit */
   formSubmit() {
+    console.log('FormSubmit');
 
-    console.log(this.timerForm);
-    console.log('Date' + this.timerForm.value);
     let formData;
-    if (this.mode === TimerModes.ADD) {
 
+    if (this.mode === TimerModes.ADD) {
       this.checkTitle();
-      formData = this.timerForm.value;
-    }
-    else {
-      this.checkTitle();
+
+      const formDate = this.timerForm.get('date').value;
+      const formDateTime = this.timerForm.get('datetime').value;
+
+      const concatDateTime = this.concatenateDateAndTime(formDate, formDateTime);
 
       formData = {
         ...this.timer,
-        ...this.timerForm.value
+        ...this.timerForm.value,
+        dateAndTime: concatDateTime
+      };
+
+    }
+    else {
+      // If TimerMode is Update
+      this.checkTitle();
+
+      console.log('date get: ' + this.timerForm.get('date').value);
+      console.log('datetime get: ' + this.timerForm.get('datetime').value);
+
+      const formDate = this.timerForm.get('date').value;
+      const formDateTime = this.timerForm.get('datetime').value;
+
+      this.timer.dateAndTime = this.concatenateDateAndTime(formDate, formDateTime);
+
+      console.log('Date Time: ' + this.timer.dateAndTime);
+
+      formData = {
+        ...this.timer,
+        ...this.timerForm.value,
+
       };
     }
+
     this.modalController.dismiss(formData);
   }
 
-  /* checkTitle */
+  /* Concat Date and Time */
+  concatenateDateAndTime(formDate: string, formTime: string): string {
+    const transformDate = this.datePipe.transform(formDate, 'yyyy-MM-ddT');
+    let transformDateTime = '';
+
+    if (formTime) {
+      transformDateTime = this.datePipe.transform(formTime, 'HH:mm:ss.000ZZZZZ');
+
+    }
+
+    return transformDate + transformDateTime;
+  }
+
+  /* Check title if its empty */
   checkTitle() {
     if (this.timerForm.get('title').value === '') {
       this.timerForm.get('title').setValue('(No title)');
     }
   }
 
-  /* dismiss */
+  /* Dismiss */
   dismiss() {
 	  this.modalController.dismiss();
   }

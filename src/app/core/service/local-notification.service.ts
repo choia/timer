@@ -9,6 +9,7 @@ export class LocalNotificationService {
 
   constructor(private localNotifications: LocalNotifications) {}
 
+  // Test
   simpleNotify(timer: Partial<Timer>) {
     this.localNotifications.schedule({
       id: timer.id,
@@ -18,22 +19,12 @@ export class LocalNotificationService {
     });
   }
 
-  createNotify(timer: Partial<Timer>) {
+  createAndUpdateNotify(timer: Partial<Timer>) {
     this.localNotifications.schedule({
       id: timer.id,
       title: timer.title,
       text: timer.description,
-      trigger: { at: new Date(timer.date)}
-    });
-  }
-
-  timeNotify(timer: Partial<Timer>) {
-    this.localNotifications.update({
-      id: timer.id,
-      title: timer.title,
-      text: timer.description,
-      trigger: { at: new Date(timer.date)}
-
+      trigger: { at: new Date(timer.dateAndTime)}
     });
   }
 

@@ -23,11 +23,11 @@
             <ion-textarea formControlName="description" rows="3"></ion-textarea>
           </ion-item>
           <ion-item>
-            <ion-datetime placeholder="Add date" [min]="minDate" [max]="maxDate" formControlName="date" required [value]="defaultDate">
+            <ion-datetime placeholder="Add date" [min]="minDate" [max]="maxDate" formControlName="date" required >
             </ion-datetime>
           </ion-item>
           <ion-item >
-            <ion-datetime placeholder="Add notification time" display-format="hh:mm A" picker-format="hh:mm A" minute-values="0,15,30,45" formControlName="datetime">
+            <ion-datetime placeholder="Add notification time" display-format="hh:mm A" picker-format="hh:mm A" formControlName="datetime">
             </ion-datetime>
           </ion-item>
         </ion-list>
