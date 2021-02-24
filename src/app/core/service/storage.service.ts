@@ -12,6 +12,10 @@ export class StorageService {
     return this.localStorage.createLocalStorage(table, keys, values);
   }
 
+  update(table: string, id: number, keys: Array<string>, values: Array<any>) {
+    return this.localStorage.updateLocalStorage(table, id, keys, values);
+  }
+
   getById(table: string, id: number) {
     return this.localStorage.getById(table, id);
   }

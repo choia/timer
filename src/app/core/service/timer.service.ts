@@ -14,11 +14,24 @@ export class TimerService extends StorageService {
   async createTimer(timer: Partial<Timer>): Promise<any> {
     const response = await super.create(
       this.tableName,
-      ['title', 'description', 'date', 'datetime',],
+      ['title', 'description', 'date', 'datetime'],
       [timer.title, timer.description, timer.date, timer.datetime]
     );
     const savedTimer = await super.getById(this.tableName, response.id);
     return savedTimer;
+  }
+
+  // update
+  async updateTimer(timer: Timer): Promise<any> {
+    const response = await super.update(
+      this.tableName,
+      timer.id,
+      ['title', 'description', 'date', 'datetime'],
+      [timer.title, timer.description, timer.date, timer.datetime]
+
+    );
+    return response;
+
   }
 
   // getAll
@@ -29,16 +42,6 @@ export class TimerService extends StorageService {
 
   // setTimers(timers: Array<Timer>) {
   //   this.timers = timers;
-  // }
-
-
-  // setTimer(timer: Timer) {
-  //   for (let i=0, len = this.timers.length; i<len; i++) {
-  //     if (timer.id === this.timers[i].id) {
-  //       this.timers[i] = timer;
-  //       break;
-  //     }
-  //   }
   // }
 
 }

@@ -13,7 +13,7 @@ export class LocalStorageService {
     const items = JSON.parse(data || '[]');
     const localStorageObject: any = {};
     localStorageObject.id = new Date().getTime();
-    
+
     keys.map((key, index) => {
       localStorageObject[key] = values[index];
     });
@@ -24,6 +24,21 @@ export class LocalStorageService {
       ...localStorageObject,
       id: localStorageObject.id
     };
+  }
+
+  async updateLocalStorage(keyIdentifier: string, id: number, keys: Array<string>, values: Array<any>) {
+    const data = await this.storage.get(keyIdentifier);
+    const items = JSON.parse(data || []);
+    const itemIndex = items.findIndex((item) => {
+      return item.id === id;
+    });
+
+    keys.map((key, ind) => {
+      items[itemIndex][key] = values[ind];
+    });
+    this.storage.set(keyIdentifier, JSON.stringify(items));
+    return items[itemIndex];
+
   }
 
   async getAll(keyIdentifier: string): Promise<any> {

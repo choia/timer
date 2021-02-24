@@ -81,10 +81,13 @@ export class HomePage implements OnInit {
     const timer = response.data;
 
     if (timer) {
-      for (let i = 0, len = this.timers.length; i < len; i++) {
-        if (timer.id === this.timers[i].id) {
-          this.timers[i] = timer;
-          break;
+      const updatedTimer = await this.timerService.updateTimer(timer);
+      if (updatedTimer) {
+        for (let i = 0, len = this.timers.length; i < len; i++) {
+          if (updatedTimer.id === this.timers[i].id) {
+            this.timers[i] = updatedTimer;
+            break;
+          }
         }
       }
     }
