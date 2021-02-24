@@ -54,17 +54,19 @@ export class HomePage implements OnInit {
     });
     await timerModal.present();
     const response = await timerModal.onDidDismiss();
-    const timer = response.data;
+    if (response.data !== undefined) {
+      const timer = response.data;
 
-    console.log('Create response date and time: ' + timer.dateAndTime);
+      console.log('Create response date and time: ' + timer.dateAndTime);
 
-    if (timer) {
-      const createdTimers = await this.timerService.createTimer(timer);
-      this.timers.push(createdTimers);
+      if (timer) {
+        const createdTimers = await this.timerService.createTimer(timer);
+        this.timers.push(createdTimers);
+      }
+
+      this.notificationService.createAndUpdateNotify(timer);
+
     }
-
-    this.notificationService.createAndUpdateNotify(timer);
-
   }
 
   // update
