@@ -1,10 +1,12 @@
 import { TimerModes } from './timer.enum';
 import { Timer } from './../../../core/model/timer.model';
-import { ModalController } from '@ionic/angular';
+import { ModalController, PopoverController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { TimerDeletePopoverComponent } from '../timer-delete-popover/timer-delete-popover.component';
 import { DateTime } from 'luxon';
 import { DatePipe } from '@angular/common';
+import { TimerConstants } from 'src/app/core/constant/timer.enum';
 @Component({
   selector: 'app-timer',
   templateUrl: './timer.component.html',
@@ -18,7 +20,10 @@ export class TimerComponent implements OnInit {
   maxDate: string;
   dateAndTime: string;
 
-  constructor(private modalController: ModalController, private fb: FormBuilder, private datePipe: DatePipe) {}
+  constructor(private modalController: ModalController,
+              private popOverController: PopoverController,
+              private fb: FormBuilder,
+              private datePipe: DatePipe) {}
 
   /* ngOnInit */
   ngOnInit() {
@@ -52,6 +57,37 @@ export class TimerComponent implements OnInit {
       this.timerForm.get('date').setValue(this.minDate);
     }
   }
+
+  async showTimer(events: any) {
+    let formData;
+
+    console.log('showTimer');
+
+    const popover = await this.popOverController.create({
+      component: TimerDeletePopoverComponent,
+      event: events,
+      translucent: true
+    });
+    await popover.present();
+    const response = await popover.onDidDismiss();
+    if (response.data === TimerConstants.DELETE) {
+      console.log('show timer list such as delete');
+
+      formData = {
+        ...this.timer,
+        ...this.timerForm.value,
+      };
+
+      this.modalController.dismiss(formData);
+    }
+  }
+
+  // delete
+  // async deleteTimer() {
+  //   console.log('DeleteTimer in timer component');
+
+
+  // }
 
   /* formSubmit */
   formSubmit() {
