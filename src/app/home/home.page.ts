@@ -3,9 +3,11 @@ import { Timer } from './../core/model/timer.model';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ELocalNotificationTriggerUnit } from '@ionic-native/local-notifications/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
-import { ModalController } from '@ionic/angular';
+import { ModalController, PopoverController } from '@ionic/angular';
 import { TimerComponent } from './components/timer/timer.component';
 import { TimerService } from '../core/service/timer.service';
+import { TimerDeletePopoverComponent } from './components/timer-delete-popover/timer-delete-popover.component';
+import { TimerConstants } from './../core/constant/timer.enum';
 import { LocalNotificationService } from '../core/service/local-notification.service';
 import { DateTime } from 'luxon';
 
@@ -21,7 +23,8 @@ export class HomePage implements OnInit {
 
   constructor(private notificationService: LocalNotificationService,
               private timerService: TimerService,
-              private modalController: ModalController) {}
+              private modalController: ModalController,
+              private popOverController: PopoverController) {}
 
   ngOnInit(): void {
     this.timers = [];
@@ -80,22 +83,40 @@ export class HomePage implements OnInit {
     });
     await timerModal.present();
     const response = await timerModal.onDidDismiss();
-    const timer = response.data;
+    if (response.data !== undefined) {
 
-    if (timer) {
-      const updatedTimer = await this.timerService.updateTimer(timer);
-      if (updatedTimer) {
-        for (let i = 0, len = this.timers.length; i < len; i++) {
-          if (updatedTimer.id === this.timers[i].id) {
-            this.timers[i] = updatedTimer;
-            break;
+      const timer = response.data;
+
+      if (timer) {
+        const updatedTimer = await this.timerService.updateTimer(timer);
+        if (updatedTimer) {
+          for (let i = 0, len = this.timers.length; i < len; i++) {
+            if (updatedTimer.id === this.timers[i].id) {
+              this.timers[i] = updatedTimer;
+              break;
+            }
           }
         }
       }
+
+      this.notificationService.createAndUpdateNotify(timer);
+
     }
-
-    this.notificationService.createAndUpdateNotify(timer);
-
   }
+
+  // async deleteTimer(events) {
+  //   const popover = await this.popOverController.create({
+  //     component: TimerDeletePopoverComponent,
+  //     event: events,
+  //     // translucent: true
+  //   });
+  //   await popover.present();
+  //   const response = await popover.onDidDismiss();
+  //   if (response.data) {
+  //     console.log('We need to delete');
+
+  //   }
+
+  // }
 
 }
