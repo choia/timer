@@ -36,9 +36,26 @@ export class LocalStorageService {
     keys.map((key, ind) => {
       items[itemIndex][key] = values[ind];
     });
-    this.storage.set(keyIdentifier, JSON.stringify(items));
+    await this.storage.set(keyIdentifier, JSON.stringify(items));
     return items[itemIndex];
 
+  }
+
+  async deleteLocalStorage(keyIdentifier: string, id: number) {
+    const data = await this.storage.get(keyIdentifier);
+    const items = JSON.parse(data || []);
+    let filterItems = [];
+
+    const itemIndex = items.findIndex((item) => {
+      return item.id === id;
+    });
+
+    filterItems = items.filter(item => {
+      return items[itemIndex] !== item;
+    });
+
+    await this.storage.set(keyIdentifier, JSON.stringify(filterItems));
+    return filterItems;
   }
 
   async getAll(keyIdentifier: string): Promise<any> {

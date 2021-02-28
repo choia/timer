@@ -34,6 +34,14 @@ export class TimerService extends StorageService {
 
   }
 
+  async deleteTimer(timer: Timer): Promise<any> {
+    const response = await super.delete(
+      this.tableName,
+      timer.id
+    );
+    return response;
+  }
+
   // getAll
   async getAllTimers(): Promise<any> {
     const timers = await super.getAll(this.tableName);

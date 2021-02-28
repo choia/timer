@@ -19,7 +19,6 @@ import { DateTime } from 'luxon';
 export class HomePage implements OnInit {
 
   timers: Timer[];
-  relativeTime: string[]
 
   constructor(private notificationService: LocalNotificationService,
               private timerService: TimerService,
@@ -27,22 +26,24 @@ export class HomePage implements OnInit {
               private popOverController: PopoverController) {}
 
   ngOnInit(): void {
+    console.log('home ngOnInit');
+
     this.timers = [];
     this.getAllTimers();
   }
 
   // setTimers
-  setTimers(timers: Timer[]) {
-    const map1 = timers.map((timer) => this.relativeTime);
-    console.log('#setTimers: ' + map1);
+  setTimers(timers: Array<Timer>) {
     this.timers = timers;
   }
 
   // getAllTimers
   async getAllTimers() {
     console.log('#getAllTimers');
-    const timers = await this.timerService.getAllTimers();
-    // this.setTimers(timers.map((timer) => new Timer(timer)));
+    const getTimers = await this.timerService.getAllTimers();
+    getTimers.map(timer => {
+      this.timers.push(timer);
+    });
 
   }
 
@@ -81,9 +82,10 @@ export class HomePage implements OnInit {
         timer: timerItem
       }
     });
+
     await timerModal.present();
     const response = await timerModal.onDidDismiss();
-    if (response.data !== undefined) {
+    if (response.data !== undefined && response.role !== TimerConstants.DELETE) {
 
       const timer = response.data;
 
@@ -102,21 +104,18 @@ export class HomePage implements OnInit {
       this.notificationService.createAndUpdateNotify(timer);
 
     }
+    else if (response.data !== undefined && response.role === TimerConstants.DELETE) {
+
+      const filterItems = response.data;
+      const itemIndex = filterItems.length;
+
+      const newTimers = filterItems.filter(item => {
+        return this.timers[itemIndex] !== item;
+      });
+
+      this.setTimers(newTimers.map(timer => new Timer(timer)));
+
+    }
   }
-
-  // async deleteTimer(events) {
-  //   const popover = await this.popOverController.create({
-  //     component: TimerDeletePopoverComponent,
-  //     event: events,
-  //     // translucent: true
-  //   });
-  //   await popover.present();
-  //   const response = await popover.onDidDismiss();
-  //   if (response.data) {
-  //     console.log('We need to delete');
-
-  //   }
-
-  // }
 
 }

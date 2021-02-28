@@ -6,6 +6,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { TimerDeletePopoverComponent } from '../timer-delete-popover/timer-delete-popover.component';
 import { DateTime } from 'luxon';
 import { DatePipe } from '@angular/common';
+import { TimerService } from '../../../core/service/timer.service';
+import { LocalNotificationService } from '../../../core/service/local-notification.service';
 import { TimerConstants } from 'src/app/core/constant/timer.enum';
 @Component({
   selector: 'app-timer',
@@ -22,6 +24,8 @@ export class TimerComponent implements OnInit {
 
   constructor(private modalController: ModalController,
               private popOverController: PopoverController,
+              private timerService: TimerService,
+              private notificationService: LocalNotificationService,
               private fb: FormBuilder,
               private datePipe: DatePipe) {}
 
@@ -59,8 +63,6 @@ export class TimerComponent implements OnInit {
   }
 
   async showTimer(events: any) {
-    let formData;
-
     console.log('showTimer');
 
     const popover = await this.popOverController.create({
@@ -73,21 +75,24 @@ export class TimerComponent implements OnInit {
     if (response.data === TimerConstants.DELETE) {
       console.log('show timer list such as delete');
 
-      formData = {
-        ...this.timer,
-        ...this.timerForm.value,
-      };
+      const filterData = await this.deleteTimer();
+      if (filterData) {
+        this.modalController.dismiss(filterData, TimerConstants.DELETE);
 
-      this.modalController.dismiss(formData);
+      }
+
     }
   }
 
   // delete
-  // async deleteTimer() {
-  //   console.log('DeleteTimer in timer component');
+  async deleteTimer() {
+    console.log('DeleteTimer in timer component');
+    const filteredItems = await this.timerService.deleteTimer(this.timer);
+    this.notificationService.deleteNotify(this.timer);
 
+    return filteredItems;
 
-  // }
+  }
 
   /* formSubmit */
   formSubmit() {

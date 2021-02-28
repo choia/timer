@@ -16,6 +16,10 @@ export class StorageService {
     return this.localStorage.updateLocalStorage(table, id, keys, values);
   }
 
+  delete(table: string, id: number) {
+    return this.localStorage.deleteLocalStorage(table, id);
+  }
+
   getById(table: string, id: number) {
     return this.localStorage.getById(table, id);
   }
