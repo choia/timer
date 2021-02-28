@@ -28,6 +28,12 @@ export class LocalNotificationService {
     });
   }
 
+  deleteNotify(timer: Partial<Timer>) {
+    this.localNotifications.clear({
+      id: timer.id
+    });
+  }
+
   // delayNotify() {
   //   this.localNotifications.schedule({
   //     id: 2,
