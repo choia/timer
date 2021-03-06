@@ -1,3 +1,7 @@
 export enum TimerConstants {
-  DELETE = 'delete'
+  DELETE = 'delete',
+  UNTIL = 'Until',
+  AFTER = 'After',
+  TODAY = 'Today',
+  SINCE = 'Since'
 }

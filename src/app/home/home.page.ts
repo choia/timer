@@ -9,7 +9,7 @@ import { TimerService } from '../core/service/timer.service';
 import { TimerDeletePopoverComponent } from './components/timer-delete-popover/timer-delete-popover.component';
 import { TimerConstants } from './../core/constant/timer.enum';
 import { LocalNotificationService } from '../core/service/local-notification.service';
-import { DateTime } from 'luxon';
+import { DateTime, Duration } from 'luxon';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +19,8 @@ import { DateTime } from 'luxon';
 export class HomePage implements OnInit {
 
   timers: Timer[];
+  untilDays = [];
+  daysLeft = [];
 
   constructor(private notificationService: LocalNotificationService,
               private timerService: TimerService,
@@ -29,13 +31,46 @@ export class HomePage implements OnInit {
     console.log('home ngOnInit');
 
     this.timers = [];
-    this.getAllTimers();
+    this.getAllTimers().then(() => this.calculateDate());
+
+    // this.calculateDate();
+    // const uDate = Duration.fromISO(this.timers[0].date);
+
+    // console.log('until Date: ' + uDate);
+
   }
 
   // setTimers
   setTimers(timers: Array<Timer>) {
     this.timers = timers;
   }
+
+  calculateDate() {
+    this.timers.map(timer => {
+      const dDate = DateTime.fromISO(timer.date);
+      const diffDate = Math.round(dDate.diffNow('day').days);
+      console.log('calculateDate: ' + diffDate);
+
+      if (diffDate < 0) {
+        this.daysLeft.push('Days Past');
+      }
+      else if (diffDate > 0) {
+        this.daysLeft.push('Days Left');
+
+      }
+      else if (diffDate == 0) {
+        this.daysLeft.push('Days Today');
+      }
+
+      timer.calculateDate = Math.abs(diffDate);
+
+      // console.log('calculateDate: ' + timer.date);
+    });
+  }
+
+  // daysLeftOrPast(day: string): string {
+
+  // }
 
   // getAllTimers
   async getAllTimers() {
@@ -44,7 +79,6 @@ export class HomePage implements OnInit {
     getTimers.map(timer => {
       this.timers.push(timer);
     });
-
   }
 
   // create
@@ -68,6 +102,7 @@ export class HomePage implements OnInit {
         this.timers.push(createdTimers);
       }
 
+      // this.calculateDate();
       this.notificationService.createAndUpdateNotify(timer);
 
     }
@@ -100,7 +135,7 @@ export class HomePage implements OnInit {
           }
         }
       }
-
+      this.calculateDate();
       this.notificationService.createAndUpdateNotify(timer);
 
     }
