@@ -1,42 +1,42 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title size="small">Countdown Stack</ion-title>
-    <ion-buttons slot="end">
+<ion-header class="ion-no-border">
+  <ion-toolbar color="timer">
+    <!-- <ion-buttons slot="start">
+      <ion-menu-button auto-hide="false" color="light"></ion-menu-button>
+    </ion-buttons> -->
+    <ion-buttons slot="primary">
       <ion-button (click)="createTimer()">
-        <ion-icon name="add-outline"></ion-icon>
+        <ion-icon name="add-outline" color="light" size="large"></ion-icon>
       </ion-button>
     </ion-buttons>
+    <ion-title class="ion-text-center" color="light">Timer</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content>
   <ion-list>
-    <ion-card *ngFor="let timer of timers" (click)="updateTimer(timer)">
+    <ion-card *ngFor="let timer of timers index as i" (click)="updateTimer(timer)">
       <ion-card-header>
         <ion-card-title>{{timer.title}}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <div>{{timer.description}}</div>
-        <div>{{timer.date | date}}</div>
-        <div>{{timer.datetime | date: "shortTime"}}</div>
+        <div class="timer-main">
+          <div class="timer-container-left">
+            <span class="timer-number-bold">{{timer.calculateDate}}</span>
+            <span class="timer-calculateDate-item"> {{daysLeft[i]}}</span>
+          </div>
+          <div class="timer-container-right">
+            <span [hidden]=!timer.datetime><ion-icon name="alarm" size="small"></ion-icon></span>
+            <span class="timer-datetime-icon" #timer> {{timer.datetime | date: "shortTime"}}</span>
+
+          </div>
+        </div>
+        <div class="timer-main">
+          <div class="timer-container-left">
+            <span> {{timer.date | date}}</span>
+          </div>
+        </div>
       </ion-card-content>
     </ion-card>
-    <!-- <ion-item>
-      <ion-input placeholder="Title"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input placeholder="Description"></ion-input>
-    </ion-item>
-    <ion-item-divider></ion-item-divider>
-    <ion-item>
-      <ion-label>Date</ion-label>
-      <ion-datetime placeholder="Select Date"></ion-datetime>
-    </ion-item> -->
-    <!-- <ion-item>
-      <ion-button (click)="simpleNotify()" expand="block" fill="clear">
-        Repeating Daily
-      </ion-button>
-    </ion-item> -->
   </ion-list>
 
 </ion-content>
