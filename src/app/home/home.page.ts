@@ -19,7 +19,6 @@ import { DateTime, Duration } from 'luxon';
 export class HomePage implements OnInit {
 
   timers: Timer[];
-  untilDays = [];
   daysLeft = [];
 
   constructor(private notificationService: LocalNotificationService,
@@ -33,11 +32,6 @@ export class HomePage implements OnInit {
     this.timers = [];
     this.getAllTimers().then(() => this.calculateDate());
 
-    // this.calculateDate();
-    // const uDate = Duration.fromISO(this.timers[0].date);
-
-    // console.log('until Date: ' + uDate);
-
   }
 
   // setTimers
@@ -46,6 +40,7 @@ export class HomePage implements OnInit {
   }
 
   calculateDate() {
+    this.daysLeft = [];
     this.timers.map(timer => {
       const dDate = DateTime.fromISO(timer.date);
       const diffDate = Math.round(dDate.diffNow('day').days);
@@ -64,13 +59,8 @@ export class HomePage implements OnInit {
 
       timer.calculateDate = Math.abs(diffDate);
 
-      // console.log('calculateDate: ' + timer.date);
     });
   }
-
-  // daysLeftOrPast(day: string): string {
-
-  // }
 
   // getAllTimers
   async getAllTimers() {
