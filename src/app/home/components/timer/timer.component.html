@@ -1,13 +1,13 @@
-<ion-header>
-  <ion-toolbar>
+<ion-header class="ion-no-border">
+  <ion-toolbar color="timer">
     <ion-buttons slot="start">
       <ion-button (click)="dismiss()">
-        <ion-icon name="arrow-back"></ion-icon>
+        <ion-icon name="arrow-back" color="light"></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button (click)="showTimer($event)">
-        <ion-icon name="ellipsis-horizontal"></ion-icon>
+        <ion-icon name="ellipsis-horizontal" color="light"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -19,18 +19,18 @@
       <ion-col>
         <ion-list>
           <ion-item>
-            <ion-label position="floating">Add title</ion-label>
-            <ion-input formControlName="title" required></ion-input>
+            <ion-label position="floating" color="medium">Add title</ion-label>
+            <ion-input formControlName="title" required autocapitalize="on"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label position="floating">Add description</ion-label>
+            <ion-label position="floating" color="medium">Add description</ion-label>
             <ion-textarea formControlName="description" rows="3"></ion-textarea>
           </ion-item>
           <ion-item>
-            <ion-datetime placeholder="Add date" [min]="minDate" [max]="maxDate" formControlName="date" required >
+            <ion-datetime placeholder="Add date" [min]="minDate" [max]="maxDate" formControlName="date" required color="medium">
             </ion-datetime>
           </ion-item>
-          <ion-item >
+          <ion-item>
             <ion-datetime placeholder="Add notification time" display-format="hh:mm A" picker-format="hh:mm A" formControlName="datetime">
             </ion-datetime>
           </ion-item>
