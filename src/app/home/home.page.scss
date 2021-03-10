@@ -34,13 +34,13 @@ ion-header {
 
 ion-card-title {
   --color: #444140;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bolder;
 }
 
 ion-card {
   border-radius: 12px;
-  margin: 5px 5px;
+  margin: 4px 4px;
   // box-shadow:
   // padding: 5px;
   // background-color: yellowgreen;
@@ -69,18 +69,18 @@ ion-icon {
 
 .timer-number-bold {
   color: #e5625e;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 900;
 }
 
 .timer-calculateDate-item {
   color: #8c8c8c;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
 }
 
 .timer-datetime-icon {
   color: #8c8c8c;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
 }
